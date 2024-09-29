@@ -1,0 +1,14 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ seo.title }}</title>
+    <meta name="description" content="{{ seo.description }}">
+    <link href="{% static 'app_main/css/style.css' %}" type="text/css"  rel="stylesheet" />
+</head>
+<body>
+    {% include 'app_main/menu.html' %}
+    {% block content %} {% endblock %}
+</body>
+</html>

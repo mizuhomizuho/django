@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block content %}
+    
+    <h1>{{ h1|safe|lower|truncatewords:3 }}</h1>
+    <h2>{{ 'one two three four'|truncatewords:3 }}</h2>
+    
+    <hr>
+    
+    <h2>Add element:</h2>
+    
+    <form method="post" enctype="multipart/form-data">
+        <input type="hidden" name="form_id" value="model_form_add_element">
+        <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+        {{ model_form.as_ul }}
+        <input type="submit" value="Ok">
+    </form>
+    
+{% endblock %}

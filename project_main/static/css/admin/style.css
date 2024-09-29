@@ -1,0 +1,7 @@
+#branding h1 a,
+#branding h1 a:link,
+#branding h1 a:visited {
+    color: #d35350;
+    font-weight: bold;
+    text-decoration-line: grammar-error;
+}

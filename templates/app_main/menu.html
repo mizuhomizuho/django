@@ -1,0 +1,13 @@
+{% load app_main.menu_tag %}
+{% get_menu as menu %}
+{% for item in menu %}
+    | {% include './inc/menu_item.html' %}
+{% endfor %}
+|
+<a href="/admin">Admin</a>
+|
+<a href="{% url 'simple_form' %}">Simple form</a>
+|
+<a href="{% url 'clear_cache' %}">Clear cache</a>
+
+<hr>

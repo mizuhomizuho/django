@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block content %}
+    
+    {% if good_msg %}
+        <div style="color: green">{{ good_msg }}</div>
+    {% endif %}
+    
+    {% if form.non_field_errors %}
+        <div style="color: red">{{ form.non_field_errors }}</div>
+    {% endif %}
+    
+    <form method="post" enctype="multipart/form-data">
+        <input type="hidden" name="form_id" value="form_simple">
+        {% csrf_token %}
+        {% for f in form %}
+            <p>
+                <label for="{{ f.id_for_label }}">{{ f.label }}</label>
+                {{ f }}
+                {{ f.errors }}
+            </p>
+        {% endfor %}
+        <input type="submit" value="Ok">
+    </form>
+    
+{% endblock %}
