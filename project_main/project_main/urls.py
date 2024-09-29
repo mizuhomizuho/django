@@ -18,21 +18,24 @@ from debug_toolbar.toolbar import debug_toolbar_urls
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
-from app_main.views import AppMainView
+from app_main.views import Views, TemplateViewPage
 from project_main import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', AppMainView.index, name='frontpage'),
-    path('simple-form/', AppMainView.simple_form, name='simple_form'),
-    path('clear-cache/', AppMainView.clear_cache, name='clear_cache'),
+    path('', Views.index, name='frontpage'),
+    path('simple-form/', Views.simple_form, name='simple_form'),
+    path('template-view-page/', TemplateViewPage.as_view(
+        # extra_context={'text':'Cat'}
+    ), name='template_view_page'),
+    path('clear-cache/', Views.clear_cache, name='clear_cache'),
     path('catalog/', include('app_catalog.urls')),
 ] + debug_toolbar_urls()
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
-handler404 = AppMainView.page_not_found
+handler404 = Views.page_not_found
 
 admin.site.site_header = 'Meow Admin'
 admin.site.index_title = 'Meow Meow Admin'

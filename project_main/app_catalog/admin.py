@@ -31,6 +31,7 @@ class SectionsAdmin(admin.ModelAdmin):
     actions = ['set_active', 'set_no_active']
     search_fields = ('id', 'name__startswith', 'elements__name')
     list_filter = (EmptySectionsFilter,)
+    save_on_top = True
 
     @admin.display(ordering='name', description='Name len')
     def short_info(self, section: Sections):
@@ -49,17 +50,18 @@ class SectionsAdmin(admin.ModelAdmin):
 @admin.register(Elements)
 class ElementsAdmin(admin.ModelAdmin):
     # exclude = ['sort'] # исключить поля из формы редактирования
-    # readonly_fields =
+    readonly_fields = ('photo_html',)
     filter_horizontal = ('sections',) # для замены обычного <select>
     # filter_vertical = ('sections',) # тоже что и filter_horizontal
     prepopulated_fields = {'code': ('name',)}
-    fields = ['name', 'code', 'sections', 'photo'] # поля формы редактирования
+    fields = ['name', 'code', 'sections', 'photo', 'photo_html'] # поля формы редактирования
     list_display = ('photo_html', 'name', 'sort', 'code', 'time_created', 'is_active')
     list_display_links = ('photo_html', 'name')
     ordering = ['-time_created', '-time_updated']
     list_editable = ('sort', 'is_active')
     list_per_page = 8
     list_filter = ('sort', 'is_active', 'name', 'sections')
+    save_on_top = True
 
     @admin.display(description='Картинка')
     def photo_html(self, item: Elements):

@@ -1,3 +1,5 @@
+from lib2to3.fixes.fix_input import context
+
 from PIL import Image
 from django.core.cache import cache
 from django.core.exceptions import ValidationError
@@ -5,10 +7,11 @@ from django.http import HttpResponse, HttpResponseNotFound
 from django.middleware.csrf import get_token
 from django.shortcuts import render
 from django.template.loader import render_to_string
+from django.views.generic import TemplateView
 from app_catalog.models import Sections
-from app_main.forms import SimpleForm, AddElementForm
+from app_main.forms import SimpleForm
 
-class AppMainView:
+class Views:
 
     @staticmethod
     def page_not_found(request, exception) -> None:
@@ -17,13 +20,6 @@ class AppMainView:
     @staticmethod
     def index(request) -> None:
 
-        if request.POST.get('form_id') == 'model_form_add_element':
-            model_form = AddElementForm(request.POST, request.FILES)
-            if model_form.is_valid():
-                model_form.save()
-        else:
-            model_form = AddElementForm()
-
         data = {
             'seo': {
                 'title': 'Site catalog',
@@ -31,7 +27,6 @@ class AppMainView:
             },
             'h1': '<b style="color: #d35350">H</b>ellow',
             'csrf_token': get_token(request),
-            'model_form': model_form,
         }
 
         str = render_to_string('app_main/index.html', data)
@@ -82,3 +77,15 @@ class AppMainView:
             'form': form,
             'good_msg': good_msg,
         })
+
+class TemplateViewPage(TemplateView):
+
+    template_name = 'app_main/template_view_page.html'
+    # extra_context = {
+    #     'text': 'Meow...'
+    # }
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['text'] = f'Cat said {self.request.GET.get('meow', 'yes')}'
+        return context

@@ -1,7 +1,9 @@
 from django.shortcuts import render, get_object_or_404
+from django.views import View
 from app_catalog.models import Sections, Elements
+from app_main.forms import AddElementForm
 
-class AppCatalogView:
+class Views:
 
     @staticmethod
     def index(request):
@@ -34,4 +36,21 @@ class AppCatalogView:
             'tree': Sections.tree.get()['tree'],
             'section': section_el,
             'items': items,
+        })
+
+class AddElementPage(View):
+
+    def get(self, request):
+        model_form = AddElementForm()
+        return render(request, 'app_catalog/add_element_page.html', {
+            'model_form': model_form,
+        })
+
+    def post(self, request):
+        if request.POST.get('form_id') == 'model_form_add_element':
+            model_form = AddElementForm(request.POST, request.FILES)
+            if model_form.is_valid():
+                model_form.save()
+        return render(request, 'app_catalog/add_element_page.html', {
+            'model_form': model_form,
         })

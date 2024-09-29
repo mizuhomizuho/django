@@ -4,9 +4,13 @@
     | {% include './inc/menu_item.html' %}
 {% endfor %}
 |
-<a href="/admin">Admin</a>
+<a href="{% url 'add_element_page' %}">Add element</a>
 |
 <a href="{% url 'simple_form' %}">Simple form</a>
+|
+<a href="{% url 'template_view_page' %}?meow=meow">Tpl view page</a>
+|
+<a href="/admin">Admin</a>
 |
 <a href="{% url 'clear_cache' %}">Clear cache</a>
 
