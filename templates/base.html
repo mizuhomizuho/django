@@ -9,7 +9,9 @@
 </head>
 <body>
     {% include 'app_main/menu.html' %}
+    {{ context_processors_meow }}
     <h1>{{ h1 }}</h1>
     {% block content %} {% endblock %}
+    {% block navigation %} {% endblock %}
 </body>
 </html>

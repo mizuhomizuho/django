@@ -8,12 +8,11 @@
             {% if items %}
                 <td>
                     <table border="1">
-                        {% for item in items %}
+                        {% for item in pager %}
                             <tr>
                                 <td>{{ item.name }}</td>
                                 <td>{{ item.time_created|date:'Y-m-d H:i:s' }}</td>
                                 <td>
-                                    {# !!! Тут будут происходить лишние SQL запросы #}
                                     {% for section in item.sections.all %}
                                         <div>{{ section.name }}</div>
                                     {% endfor %}
@@ -23,9 +22,18 @@
                                         <img src="{{ item.photo.url }}" style="max-width: 88px;width: 100%;height: auto">
                                     {% endif %}
                                 </td>
+                                <td>
+                                    {{ item.author }}
+                                    {{ item.author.last_login }}
+                                </td>
                             </tr>
                         {% endfor %}
                     </table>
+                
+{#                    {% for item in pager.paginator.page_range %}#}
+{#                        <a href="?page={{ item }}">{{ item }}</a>#}
+{#                    {% endfor %}#}
+                
                 </td>
             {% endif %}
         </tr>

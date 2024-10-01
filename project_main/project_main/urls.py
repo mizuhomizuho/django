@@ -30,6 +30,7 @@ urlpatterns = [
     ), name='template_view_page'),
     path('clear-cache/', Views.clear_cache, name='clear_cache'),
     path('catalog/', include('app_catalog.urls')),
+    path('users/', include('app_users.urls', namespace='users_namespace')),
 ] + debug_toolbar_urls()
 
 if settings.DEBUG:

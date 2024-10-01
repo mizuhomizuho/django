@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block content %}
+    
+    ---{{ title }}---
+    
+    {% if user.is_authenticated %}
+        Вы авторизованны как {{ user.username }}...
+    {% else %}
+        <form method="post">
+            <input type="hidden" name="next" value="{{ next }}">
+            {% csrf_token %}
+            {{ form.as_ul  }}
+            <input type="submit" value="Ok">
+        </form>
+    {% endif %}
+    
+{% endblock %}

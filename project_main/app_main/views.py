@@ -1,4 +1,5 @@
 from PIL import Image
+from django.contrib.auth.decorators import login_required
 from django.core.cache import cache
 from django.core.exceptions import ValidationError
 from django.http import HttpResponse, HttpResponseNotFound
@@ -27,8 +28,10 @@ class Views:
             'csrf_token': get_token(request),
         }
 
-        str = render_to_string('app_main/index.html', data)
-        return HttpResponse(str)
+        # так не работают context_processors в шаблоне
+        # str = render_to_string('app_main/index.html', data)
+        # return HttpResponse(str)
+        return render(request, 'app_main/index.html', data)
 
     @staticmethod
     def clear_cache(request) -> None:
@@ -51,20 +54,22 @@ class Views:
         except:
             raise ValidationError('Invalid image')
 
-    @classmethod
-    def simple_form(cls, request) -> None:
+    @login_required # settings.py LOGIN_URL
+    # @login_required(login_url='login')
+    @staticmethod
+    def simple_form(request) -> None:
         good_msg = ''
         if request.POST.get('form_id') == 'form_simple':
             form = SimpleForm(request.POST, request.FILES)
             if form.is_valid():
                 try:
                     for img in request.FILES.getlist('files_img'):
-                        cls.__validate_image(img)
+                        Views.__validate_image(img)
                     data_for_add = form.cleaned_data
                     del data_for_add['files_img']
                     Sections.objects.create(**data_for_add)
                     for img in request.FILES.getlist('files_img'):
-                        cls.__handle_uploaded_file(img)
+                        Views.__handle_uploaded_file(img)
                     form = SimpleForm()
                     good_msg = 'Успешно'
                 except Exception as e:

@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block content %}
+    
+    <h2>Reg</h2>
+    
+    {% if user.is_authenticated %}
+        Вы авторизованны как {{ user.username }}...
+    {% else %}
+        <form method="post">
+            <input type="hidden" name="form_id" value="reg">
+            <input type="hidden" name="next" value="{{ next }}">
+            {% csrf_token %}
+            {{ form.as_ul  }}
+            <input type="submit" value="Reg">
+        </form>
+    {% endif %}
+    
+{% endblock %}

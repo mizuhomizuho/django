@@ -1,4 +1,6 @@
 from typing import Dict, List, Union, Optional
+
+from django.contrib.auth import get_user_model
 from django.core.cache import cache
 from django.db import models
 from django.urls import reverse
@@ -135,6 +137,13 @@ class Elements(models.Model):
     is_active = models.BooleanField(choices=tuple(map(lambda x: (bool(x[0]), x[1]), Status.choices)), default=Status.ACTIVE)
     time_created = models.DateTimeField(auto_now_add=True)
     time_updated = models.DateTimeField(auto_now=True)
+    author = models.ForeignKey(
+        get_user_model(),
+        on_delete=models.SET_NULL,
+        related_name='element_item',
+        null=True,
+        default=None,
+    )
 
     def __str__(self) -> str:
         return f'[{self.pk}]: {self.name}'

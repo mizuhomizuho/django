@@ -32,6 +32,9 @@ ALLOWED_HOSTS = []
 INTERNAL_IPS = [
     '127.0.0.1',
 ]
+LOGIN_REDIRECT_URL = 'users_namespace:login_view' # куда отправить пользователя после успешной регистрации
+# LOGIN_URL = '' # куда направлять при попытке посетить закрытую стр. сайта ( @login_required )
+# LOGOUT_REDIRECT_URL = ''
 
 # Application definition
 
@@ -44,6 +47,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'app_main.apps.AppMainConfig',
     'app_catalog.apps.AppCatalogConfig',
+    'app_users.apps.AppUsersConfig',
     'debug_toolbar',
 ]
 
@@ -71,6 +75,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'app_main.context_processors.get_context_processors_menu',
             ],
         },
     },

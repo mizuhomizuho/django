@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block content %}
+    
+    {% if user.is_authenticated %}
+        Вы авторизованны как {{ user.username }}...
+    {% else %}
+        <form method="post">
+            <input type="hidden" name="form_id" value="form_login">
+            {% csrf_token %}
+            {{ custom_form.as_div }}
+            <input type="submit" value="Ok">
+        </form>
+    {% endif %}
+    
+{% endblock %}
