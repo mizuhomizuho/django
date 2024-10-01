@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block content %}
+    
+    ---{{ object.name }}---
+    <hr>
+    SQL++ (if no prefetch_related):
+    ---{{ object.sections.all.count }}---
+    <hr>
+    SQL++ (if no prefetch_related):
+    ---{{ object.sections.all }}---
+    <hr>
+    SQL++ (if no prefetch_related):
+    ---{{ object.sections.all }}---
+    <hr>
+    SQL++ (if no prefetch_related):
+    ---{{ object.sections.all }}---
+    <hr>
+    SQL++ (if no prefetch_related):
+    {{ object.sections.all|length }}
+    <hr>
+    SQL++ (if no prefetch_related):
+    {% for section in object.sections.all %}
+        <div>{{ section.name }} +++ {{ forloop.counter0 }}</div>
+    {% endfor %}
+    
+{% endblock %}

@@ -1,0 +1,14 @@
+
+{% extends 'base.html' %}
+{% block content %}
+    
+    <h1>{{ text }}</h1>
+    
+    <form method="post" enctype="multipart/form-data">
+        <input type="hidden" name="form_id" value="model_form_add_element">
+        {% csrf_token %}
+        {{ form.as_ul }}
+        <input type="submit" value="Ok">
+    </form>
+    
+{% endblock %}

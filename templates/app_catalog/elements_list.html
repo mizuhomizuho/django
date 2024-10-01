@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block content %}
+    
+    ---{{ text }}---
+    
+    <hr>
+    
+{#    {% load app_main.tpl_tags %}#}
+    
+    {% for item in object_list %}
+        
+        | {{ item.name }} ({{ item.sections.count }})
+{#        {% debug_tpl sect=item.sections %}#}
+    
+    {% endfor %}
+    
+    <hr>
+    
+    {% for item in my_elements %}
+        
+        | {{ item.name }}
+    
+    {% endfor %}
+    
+{% endblock %}

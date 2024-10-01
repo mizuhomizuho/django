@@ -1,5 +1,3 @@
-from lib2to3.fixes.fix_input import context
-
 from PIL import Image
 from django.core.cache import cache
 from django.core.exceptions import ValidationError

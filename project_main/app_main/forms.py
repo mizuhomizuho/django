@@ -15,6 +15,7 @@ class NumValidator:
     def __call__(self, value, *args, **kwargs):
         if not (set(value) <= set(self.__allow)):
             raise forms.ValidationError(self.__message, self.__code)
+
 class SimpleForm(forms.Form):
 
     name = forms.CharField(

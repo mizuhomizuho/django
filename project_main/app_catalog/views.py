@@ -1,6 +1,10 @@
 from django.shortcuts import render, get_object_or_404
+from django.urls import reverse_lazy
 from django.views import View
+from django.views.generic import ListView, DetailView, FormView, CreateView
+
 from app_catalog.models import Sections, Elements
+from app_catalog.utils import DataMixin
 from app_main.forms import AddElementForm
 
 class Views:
@@ -54,3 +58,63 @@ class AddElementPage(View):
         return render(request, 'app_catalog/add_element_page.html', {
             'model_form': model_form,
         })
+
+class TemplateListViewPage(DataMixin, ListView):
+
+    model = Elements
+    # template_name = 'xxx/yyy/zzz.html'
+    context_object_name = 'my_elements'
+    # allow_empty = True # for 404 if objects empty
+    h1 = 'xxxxxxxxxxxxxxxxxxxx'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # context['current_section'] = context['elements'][0].sections[0] # как-то так...
+        return self.get_mixin_context(
+            context,
+            text=f'Cat said - {self.request.GET.get('meow', 'yes')}'
+        )
+
+    def get_queryset(self):
+        # return self.model.tree
+        return self.model.objects.filter(is_active=self.model.Status.ACTIVE).prefetch_related('sections')
+
+class TemplateDetailViewPage(DetailView):
+
+    model = Elements
+    slug_url_kwarg = 'element_code'
+    # pk_url_kwarg =
+    slug_field = 'code'
+
+    def get_object(self, queryset=None):
+        return get_object_or_404(
+            self.model.objects.prefetch_related('sections'),
+            code=self.kwargs[self.slug_url_kwarg],
+            is_active=self.model.Status.ACTIVE,
+        )
+
+class TemplateFormPage(FormView):
+
+    form_class = AddElementForm
+    template_name = 'app_catalog/template_form_page.html'
+    success_url = reverse_lazy('frontpage')
+    extra_context = {
+        'text': 'Template form page'
+    }
+
+    def form_valid(self, form):
+        form.save()
+        return super().form_valid(form)
+
+# class TemplateUpdatePage(UpdateView):
+class TemplateCreatePage(CreateView):
+
+    # form_class = AddElementForm
+    model = Elements
+    fields = '__all__'
+
+    template_name = 'app_catalog/template_form_page.html'
+    success_url = reverse_lazy('frontpage') # если убрать будет перенаправлен на get_absolute_url
+    extra_context = {
+        'text': 'Template create page'
+    }

@@ -13,6 +13,7 @@
                                 <td>{{ item.name }}</td>
                                 <td>{{ item.time_created|date:'Y-m-d H:i:s' }}</td>
                                 <td>
+                                    {# !!! Тут будут происходить лишние SQL запросы #}
                                     {% for section in item.sections.all %}
                                         <div>{{ section.name }}</div>
                                     {% endfor %}

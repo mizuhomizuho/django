@@ -1,17 +1,18 @@
-{% load app_main.menu_tag %}
+
+{% load app_main.tpl_tags %}
 {% get_menu as menu %}
 {% for item in menu %}
     | {% include './inc/menu_item.html' %}
 {% endfor %}
-|
-<a href="{% url 'add_element_page' %}">Add element</a>
-|
-<a href="{% url 'simple_form' %}">Simple form</a>
-|
-<a href="{% url 'template_view_page' %}?meow=meow">Tpl view page</a>
-|
-<a href="/admin">Admin</a>
-|
-<a href="{% url 'clear_cache' %}">Clear cache</a>
+
+| <a href="{% url 'add_element_page' %}">Add element</a>
+| <a href="{% url 'simple_form' %}">Simple form</a>
+| <a href="{% url 'template_view_page' %}?meow=meow">Tpl view</a>
+| <a href="{% url 'template_list_view_page' %}?meow=meow1">Tpl list</a>
+| <a href="{% url 'template_detail_view_page' element_code='wertyuioo' %}">Tpl detail</a>
+| <a href="{% url 'template_form_page' %}">Tpl form</a>
+| <a href="{% url 'template_create_page' %}">Tpl create</a>
+| <a href="/admin">Admin</a>
+| <a href="{% url 'clear_cache' %}">Clear cache</a>
 
 <hr>
