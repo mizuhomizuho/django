@@ -30,9 +30,21 @@
                         {% endfor %}
                     </table>
                 
-{#                    {% for item in pager.paginator.page_range %}#}
-{#                        <a href="?page={{ item }}">{{ item }}</a>#}
-{#                    {% endfor %}#}
+                    {% if pager.paginator.num_pages > 1 %}
+                        {% if pager.has_previous %}
+                            <a href="?page={{ pager.previous_page_number }}">&lt;</a>
+                        {% endif %}
+                        {% for item in pager.paginator.page_range %}
+                            {% if pager.number == item %}
+                                <a href="?page={{ item }}" style="color: red">{{ item }}</a>
+                            {% elif item >= pager.number|add:-2 and item <= pager.number|add:2 %}
+                                <a href="?page={{ item }}">{{ item }}</a>
+                            {% endif %}
+                        {% endfor %}
+                        {% if pager.has_next %}
+                            <a href="?page={{ pager.next_page_number }}">&gt;</a>
+                        {% endif %}
+                    {% endif %}
                 
                 </td>
             {% endif %}

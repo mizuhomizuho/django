@@ -1,4 +1,5 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import permission_required
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy
 from django.views import View
@@ -31,6 +32,7 @@ class Views:
             'tree': Sections.tree.get()['tree']
         })
 
+    @permission_required(perm='app_catalog.view_sections', raise_exception=True)
     @staticmethod
     def section(request, section_code, section_path=None):
         section_el = get_object_or_404(Sections, code=section_code)
@@ -53,6 +55,11 @@ class Views:
 
         pager = p.get_page(request.GET.get('page'))
 
+        # res = {}
+        # import inspect
+        # res['p'] = inspect.getmembers(p)
+        # res['pager'] = inspect.getmembers(pager)
+
         # raise Http404()
         # return redirect('section', 'cat1/cat2', 'cat3', permanent=True)
         return render(request, 'app_catalog/section.html', context={
@@ -62,7 +69,9 @@ class Views:
             'pager': pager,
         })
 
-class AddElementPage(View):
+class AddElementPage(PermissionRequiredMixin, LoginRequiredMixin, View):
+
+    permission_required = 'app_catalog.add_elements' # <риложение>.<действие>_<таблица>
 
     def get(self, request):
         model_form = AddElementForm()

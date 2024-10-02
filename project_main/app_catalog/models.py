@@ -73,7 +73,7 @@ class Sections(models.Model):
     # null=True, to allow in database
     # blank=True, to allow in form validation
     code = models.CharField(max_length=255, db_index=True, unique=True)
-    name = models.CharField(max_length=255, verbose_name='Название категории')
+    name = models.CharField(max_length=251, verbose_name='Название категории')
     description = models.TextField(blank=True)
     sort = models.IntegerField(default=800)
     is_active = models.BooleanField(choices=tuple(map(lambda x: (bool(x[0]), x[1]), Status.choices)), default=Status.ACTIVE)

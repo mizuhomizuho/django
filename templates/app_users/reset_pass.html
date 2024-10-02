@@ -4,17 +4,15 @@
     {% if user.is_authenticated %}
         Вы авторизованны как {{ user.username }}...
     {% else %}
-        {% if custom_form.non_field_errors %}
-            <div style="color: red">{{ custom_form.non_field_errors }}</div>
+        {% if form.non_field_errors %}
+            <div style="color: red">{{ form.non_field_errors }}</div>
         {% endif %}
         <form method="post">
-            <input type="hidden" name="form_id" value="form_login">
+            <input type="hidden" name="form_id" value="reset_pass">
             {% csrf_token %}
-            {{ custom_form.as_div }}
+            {{ form.as_ul  }}
             <input type="submit" value="Ok">
         </form>
     {% endif %}
-    
-    <a href="{% url 'users_namespace:reset_pass' %}">Reset pass</a>
     
 {% endblock %}

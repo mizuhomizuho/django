@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block content %}
+    
+    ---{{ title }}---
+    
+    {% if form.non_field_errors %}
+        <div style="color: red">{{ form.non_field_errors }}</div>
+    {% endif %}
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_ul  }}
+        <input type="submit" value="Ok">
+    </form>
+    
+    <a href="{% url 'users_namespace:pass_change' %}">Pass change</a>
+    
+{% endblock %}

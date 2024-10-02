@@ -3,9 +3,14 @@
     
     <h2>Reg</h2>
     
+    <h3>---{{ title }}---</h3>
+    
     {% if user.is_authenticated %}
         Вы авторизованны как {{ user.username }}...
     {% else %}
+        {% if form.non_field_errors %}
+            <div style="color: red">{{ form.non_field_errors }}</div>
+        {% endif %}
         <form method="post">
             <input type="hidden" name="form_id" value="reg">
             <input type="hidden" name="next" value="{{ next }}">

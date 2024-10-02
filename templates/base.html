@@ -8,10 +8,30 @@
     <link href="{% static 'app_main/css/style.css' %}" type="text/css"  rel="stylesheet" />
 </head>
 <body>
+
     {% include 'app_main/menu.html' %}
+    
     {{ context_processors_meow }}
+    
+    <hr>
+    {% if perms.app_catalog.add_elements %}
+        Allow add elements
+    {% else %}
+        Deny add elements
+    {% endif %}
+    ---
+    {% if perms.app_catalog.view_sections %}
+        Allow view sections
+    {% else %}
+        Deny view sections
+    {% endif %}
+    <hr>
+    
     <h1>{{ h1 }}</h1>
+    
     {% block content %} {% endblock %}
+    
     {% block navigation %} {% endblock %}
+
 </body>
 </html>

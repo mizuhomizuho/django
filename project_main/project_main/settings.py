@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 
+from django.conf.global_settings import MEDIA_URL
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -35,6 +37,22 @@ INTERNAL_IPS = [
 LOGIN_REDIRECT_URL = 'users_namespace:login_view' # куда отправить пользователя после успешной регистрации
 # LOGIN_URL = '' # куда направлять при попытке посетить закрытую стр. сайта ( @login_required )
 # LOGOUT_REDIRECT_URL = ''
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'app_users.authentication.EmailAuthBackend',
+]
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST = 'smtp.yandex.ru'
+# EMAIL_PORT = 465
+# EMAIL_HOST_USER = 'xxx@yandex.ru'
+# EMAIL_HOST_PASSWORD = 'xxx'
+# EMAIL_USE_SSL = True
+# DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+# SERVER_EMAIL = EMAIL_HOST_USER
+# EMAIL_ADMIN = EMAIL_HOST_USER
+AUTH_USER_MODEL = 'app_users.User' # -> py manage.py createsuperuser
+DEFAULT_USER_IMAGE = MEDIA_URL + 'users_def.jpg'
 
 # Application definition
 
