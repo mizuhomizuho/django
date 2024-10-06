@@ -4,7 +4,9 @@ from django.contrib.auth import get_user_model
 from django.core.cache import cache
 from django.db import models
 from django.urls import reverse
+# from django.db.models.functions import Length
 
+# models.CharField.register_lookup(Length)
 
 class TreeManager(models.Manager):
 
@@ -119,6 +121,16 @@ class Elements(models.Model):
     class Meta:
         verbose_name = 'Элемент'
         verbose_name_plural = 'Элементы'
+        # constraints = [
+        #     models.UniqueConstraint(
+        #         name="%(app_label)s_%(class)s_name_unique",
+        #         fields=["name"],
+        #     ),
+        #     models.CheckConstraint(
+        #         name="%(app_label)s_%(class)s_name_not_empty",
+        #         check=models.Q(name__length__gt=0),
+        #     ),
+        # ]
 
     class Status(models.IntegerChoices):
         ACTIVE = 1, 'Active'
