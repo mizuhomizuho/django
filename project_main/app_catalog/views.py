@@ -36,7 +36,7 @@ class Views:
     @staticmethod
     def section(request, section_code, section_path=None):
         section_el = get_object_or_404(Sections, code=section_code)
-        items = Elements.objects.filter(sections=section_el)
+        items = Elements.objects.filter(sections=section_el).prefetch_related('sections').select_related('author')
 
         p = Paginator(items, 8)
         # p.count
@@ -50,8 +50,6 @@ class Views:
         # p.has_other_pages()
         # p.next_page_number()
         # p.previous_page_number()
-        
-        items.prefetch_related('sections').select_related('author')
 
         pager = p.get_page(request.GET.get('page'))
 
