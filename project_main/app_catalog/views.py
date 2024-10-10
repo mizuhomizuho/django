@@ -65,7 +65,6 @@ class Views:
         return render(request, 'app_catalog/section.html', context={
             'tree': Sections.tree.get()['tree'],
             'section': section_el,
-            'items': items,
             'pager': pager,
         })
 
